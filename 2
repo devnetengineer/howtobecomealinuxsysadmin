@@ -1,0 +1,43 @@
+Install a Spacewalk Server
+-Open Source systems management software for system provisioning, patching, and configuration
+
+-Spacewalk provides the web interface to manage and view the updates for the system that are registered with Spacewalk, and 
+we can initiate the task such as install, update, inventory, and so on.
+-features:
+Inventory of the systems
+Install and Update system packages.
+Perform a Kick-start installation.
+Deploy and Manage the configuration files from a single location
+Start / Stop / Configure the guests.
+Distribute the content across the multiple Geographical location using spacewalk proxy.
+
+
+
+
+
+1: How to Install SpaceWalk on CentOS 7 / RHEL 7
+
+2: Managing Channels and Repositories in Spacewalk
+
+*Channel is nothing but a collection of software (RPM) packages. A channel may contain packages from a specific 
+distribution or contains packages for an application or family of applications. Users may also define channels.
+
+Any client can subscribe to a particular channel to download, update, install packages. The channels are linked to 
+upstream server (a normal YUM/DEB repository). A channel may have linked to multiple repositories, can be cloned, sync or customized.
+
+There are two types of channels:
+
+Base channels
+Child channels
+A base channel consists of packages based on a specific architecture and Red Hat Enterprise Linux release. 
+A child channel is a channel associated with a base channel that contains extra packages. 
+A system must be subscribed to only one base channel but it can be subscribed to multiple child channels of its base channel.
+
+A subscribed system can only install or update packages available through its Satellite channels.
+
+
+
+3: Register clients with SpaceWalk Server
+
+
+https://www.itzgeek.com/how-tos/linux/centos-how-tos/how-to-install-spacewalk-on-centos-7-rhel-7.html
