@@ -1,0 +1,42 @@
+Set up dhcpd service for the entire environment
+
+dhcp daemon --> SpaceWalk (pxeboot machine)
+
+***************
+*There are a lot of moving parts to imaging devices using one of the tools mentioned above, and there can be a
+lot of pain points in the process.  When you are trying to image a device youare usually trying to interact with it 
+before the pre-installed Operating System (OS) launches or interact it when it doesn’t have an OS installed on it.  
+And to do that we want to interact with the Preboot Execution Environment or PXE as its commonly referred to. And 
+this is often the part that can cause a lot of pain.
+
+ 
+
+The PXE environment in its simplest form is the process of having your device boot from its network card.  For 
+the device to boot into the PXE environment it needs to receive the relevant instructions.  The most common way 
+of trying to do this is to configure your Dynamic Host Configuration (DHCP) server to store and serve this information.
+
+PXE Boot Process
+
+ 
+
+Using your DHCP server to store and serve this information looks like this:
+
+The device sends out a DHCP broadcast and states that it needs to PXE boot (you’ve often initiated this request 
+by hitting F12 on the device as it starts up)
+The DHCP server picks up this broadcast and replies with a suggested IP address to use. If the server has the information 
+on how to PXE boot, that information is included in its reply
+The device then replies to the server and uses the provided address
+Then the device contacts the PXE boot server (traditional a WDS server or SCCM server) and requests the boot file 
+(also known as the Network Boot Program (NBP)) that it was told to look for from the DHCP server
+The file is then loaded and launched on the client
+
+
+https://techcommunity.microsoft.com/t5/itops-talk-blog/how-does-the-pxe-boot-process-work/ba-p/888557
+************
+
+Setting this up will allow you use Cobbler to do unattended OS installations
+*make sure every FORWARD ZONE you create has a REVERSE ZONE associated with it
+ex) internal.virtnet, not .local
+
+
+https://www.linuxtechi.com/install-and-configure-cobbler-on-centos-7/
