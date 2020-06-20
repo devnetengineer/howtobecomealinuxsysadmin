@@ -1,0 +1,33 @@
+Set up a KVM hypervisor
+
+x86 hardware with virtualization extensions:
+
+1. Intel VT
+-if you are buying the hardware to run KVM on:
+
+Visit the product specification site (ark.intel.com). Enter the number of the processor in the search box located on the right side. In 
+the processor product page, and under Advanced Technologies, check to see if Intel® Virtualization Technology (VT-x) is supported.
+
+EX) Intel Core i5-9400F 2.9 GHz 6-Core Processor
+https://ark.intel.com/content/www/us/en/ark/products/190883/intel-core-i5-9400f-processor-9m-cache-up-to-4-10-ghz.html
+***Intel® Virtualization Technology (VT-x) ‡ Yes ***
+
+-if you already have the hardware, check to see if your processor supports it on your Linux OS that's going to run the KVM:
+
+# grep -e 'vmx' /proc/cpuinfo		#Intel systems
+
+
+2. AMD-V
+
+# grep -e 'svm' /proc/cpuinfo		#AMD systems
+
+
+*In addition, you can confirm the KVM modules are loaded in the kernel:
+
+# lsmod | grep kvm
+
+
+
+
+https://www.tecmint.com/install-kvm-in-centos-8/
+
