@@ -1,0 +1,16 @@
+Kernel-based Virtual Machine (KVM)
+-a loadable Kernel module that turns Linux into a Type 1 (bare-metal) hypervisor that creates a virtual operating platforms
+used to run virtual machines
+-supports "nested virtualization", which allows you to run a VM inside another VM
+-provides enhanced VM security such as: SELinux and sVirt
+-supports both offline and realtime migration: migration of running VM between physical hosts
+
+
+Under KVM
+-each VM is a Linux process that is scheduled and managed by the kernel and has private virtualized hardware such as: CPU, network
+card, and etc
+-inherits kernel memory management features from Linux style OS
+
+
+
+
