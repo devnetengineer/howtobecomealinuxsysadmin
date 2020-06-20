@@ -1,0 +1,20 @@
+Hypervisor, in its generic definition, is a virtualiation technology that allows you to host multiple virtual instances of Operating Systems
+on a physical hardware, such as a dedicated server.
+
+Hypervisor has two types: Type 1 and Type 2.
+
+If you have installed VirtualBox on your Windows machine and created VMs, you have used what it's considered as Type 2 hypervisor. This type
+of hypervisor resides on top of another OS, and tends to be not as efficient in terms of utilizing the hardware resources as the Type 1
+hypervisor due to have an OS as the middleman, between the hypervisor and the hardware.
+
+Mostly in enterprise settings, you will see Type 1 hypervisors. These hypervisors reside directly on top of the hardware and tend to be
+a lot more efficient in distributing the resources between the VMs.
+
+Two examples of Type 1 hypervisor are: ESXi hypervisor from VMware and the Open Source KVM (Kernel-based Virtual Machine).
+
+ESXi hypervisor is managed through the VMware's proprietary management platform (vSphere). It seems to be more user friendly than KVMs, but
+like most things "user-friend" in Information Technology world, they are not as lightweight as the Open Source Linux based applications
+and Operating Systems. 
+
+On the other hand, KVM is able to run applications at its near-native speeds, faster than other industry hypervisors. It's also capable of
+integrating with your existing infrastructure and many different Linux and Windows platforms.
