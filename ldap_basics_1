@@ -1,0 +1,68 @@
+LDAP
+-Lightweight Directory Access Protocol
+-LDAP is a lightweight protocol for accessing directory services, specifically x.500-based directory services
+-LDAP runs over TCP/IP or other connecton oriented transfer services
+
+
+***************************************
+What is a directory?
+-a directory is a specialized database optimized for reading, browsing, and searching
+-directories tend to contain "descriptive, attribute-based information" and support sophisticated filtering capabilities 
+
+***************************************
+Local vs. Global
+
+Local directory service
+-provides services to a restricted content
+
+Global directory service
+-provides services to a much broader context
+-global services are usually distributed, meaning the data they contain is spread across many machines 
+EX) DNS servers are an example of a globally distributed directory services
+
+***************************************
+
+What kind of information can be stored in the directory?
+-LDAP information model is based on "entries":
+
+An entry = a collectin of attributes that has a globally-unique Distinguished Name (DN)
+
+*A "DN" is used to refer to the "entry" unambiguously
+
+Each entry's attributes has a "type" and one or more "values":
+
+ca = common name
+mail = email address
+
+*the syntax of values depend on the attribute type:
+
+cn = Bob Smith
+mail = bob@example.com
+jpegPhoto = a JPEG (binary) format/photo
+
+****************************************
+
+How is the information arranged?
+-in LDAP, directories entries are arranged in a hierarchical tree-like structure
+-traditionally, the tree-like hierarchical structure reflected the geographic and/or organization boundaries
+EX)
+
+c = GB > 
+c = US > 
+st = Cali > 
+o = Acme (the organization) > 
+ou = Marketing (organizational unit) >
+cn = Bob Smith (person)
+
+
+-the tree may also be arranged based upon Internet domain names
+EX)
+
+dc = net >
+dc = com >
+dc = example (the organization) >
+ou = servers or people (organizational unit) >
+uid = babs (person)
+
+
+
