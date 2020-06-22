@@ -1,0 +1,37 @@
+How is the information referenced?
+-an entry is referenced by its DN (distinguished name), which is constructed by taking the name of the entry itself:
+RDN (Relative Distinguished Name) and concatenating the name of its ancestor entries
+
+
+EX) 
+Bob Smith
+RDN: uid=babs
+DN: uid=babs, ou = People, dc = example, dc = com
+
+
+**************************************************
+
+How is the information accessed?
+-LDAP defines the operations for interrogating and updating the directory
+*Mostly, LDAP is used to search for information in the directory
+
+**************************************************
+How does LDAP work?
+-LDAP directory service is based on a "client-server" model
+-one or more  LDAP servers contain the data making up the Directory Information Tree (DIT)
+EX)
+1. the client connects to servers and ask a question
+2. the server responds with an answer and/or point to where the client can get additional information
+CLIENT <----------------> LDAP server
+
+**************************************************
+X.500
+-X.500's Directory Access Protocol (DAP) is a heavyweight protocol that operates over a full OSI protocol stack
+*requires a significant more computing resources
+
+-LDAP is designed to operate over TCP/IP and provide most of the functionality of DAP at a much lower cost
+
+CLIENT ----(LDAP)-------> (GATEWAY)-------(DAP)----->X.500 server
+*while LDAP is still used to access X.500 directory service via gateways, LDAP is now more commonly directly implemented in X.500 servers
+
+*************************************************
