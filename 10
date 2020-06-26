@@ -1,0 +1,8 @@
+Deploy two more VMs. These will have httpd (Apache2) on them. Leave essentially default for now.
+
+
+https://en.wikipedia.org/wiki/Apache_HTTP_Server
+
+https://devconnected.com/how-to-install-apache-on-centos-8/
+
+https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-centos-8
