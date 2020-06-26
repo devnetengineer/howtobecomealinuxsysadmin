@@ -1,0 +1,4 @@
+You guessed right, deploy another VM. This will do iptables-based NAT/round-robin loadbalancing between the two httpd servers.
+
+https://www.tecmint.com/setup-nginx-haproxy-load-balancer-in-centos-8/
+
