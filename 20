@@ -1,0 +1,2 @@
+Bonus exercise: create three more VMs. A CentOS 5, 6, and 7 machine. On each of these machines, set them up to allow you to create custom RPMs and import them into the 
+Spacewalk server instance. Ensure your Puppet configurations work for all three and produce like-for-like behaviors.
