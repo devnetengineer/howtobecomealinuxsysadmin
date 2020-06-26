@@ -1,0 +1,7 @@
+Deploy another VM. On this VM, set up a syslog daemon to listen to every other server's input. 
+Reconfigure each other server to send their logging output to various files on the syslog server. 
+(For extra credit, set up logstash or kibana or greylog to parse those logs.)
+
+
+https://www.linuxtechi.com/configure-rsyslog-server-centos-8-rhel-8/
+
