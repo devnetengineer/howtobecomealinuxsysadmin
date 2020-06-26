@@ -1,0 +1,9 @@
+Deploy two more VMs. These will have tomcat on them. Use JBoss Cache to replicate the session caches between them. 
+Use the httpd servers as the frontends for this. The application you will run is JBoss Wiki.
+
+http://tomcat.apache.org/
+
+https://access.redhat.com/documentation/en-us/red_hat_jboss_web_server/3.1/html/installation_guide/installing_jboss_web_server_on_red_hat_enterprise_linux
+
+https://www.tecmint.com/install-apache-tomcat-in-centos/
+
