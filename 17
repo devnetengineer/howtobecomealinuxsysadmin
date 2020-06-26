@@ -1,0 +1,2 @@
+Now go back and create Puppet Manifests to ensure that every last one of these machines is authenticating to the LDAP servers, 
+registered to the Spacewalk server, and backed up by the bakula server.
