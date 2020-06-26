@@ -1,0 +1,3 @@
+Deploy another VM. On this VM, install postfix. Set it up to use a gmail account to allow you to have it send emails, and receive messages only from your internal network.
+
+https://www.linuxtechi.com/install-configure-postfix-mailserver-centos-8/
