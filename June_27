@@ -1,0 +1,48 @@
+Server desktop build:
+
+Ryzen 5 3600
+B450M DS3H AMD AM4 mATX Motherboard
+Vengeance LPX 16 GB (2 x 8 GB)
+1TB SSD 3D NAND SATA III 6Gb/s 2.5" Internal Solid State Drive
+CX650M 650 Watt PSU(corsair)
+H510 Tempered Glass ATX case
+*Did not realize the motherboard did not come with an integrated GPU
+*Picked one up for free from a good friend:
+Asus GTX1050ti
+
+
+The assembly of parts took about 3-4 hours
+
+Ran into some trouble when trying to put the CenOS8 iso image on the USB:
+-used  software called Etcher to take the downloaded iso image to "flash" it into the USB drive
+to make it a bootable USB drive that the new server can boot from
+-after the "flash" was completed, although I could audibly tell the USB drive was connected 
+(Windows makes a sound when a new device is connected), I could not see the actual USB drive
+icon
+-looking thorugh their forums, it seems that the software had issues in the past where it bricked
+a lot of the USB drives after the "flash" by either rendering them completely useless to the
+point of no return or reducing the storage size of the USB drive
+-fortunately, it seemed that my USB drive was not bricked because from some of the posts on
+the forum, it's because once it's "flashed", Windows cannot detect a Linux image, just the boot partition (even though
+in the past, I could still see the bootable USB drive and the content of the image. Used
+Rufus or some other software though)
+
+Connected the USB drive to the new server and booted the server, fingers crossed
+
+There was a good 15 seconds of nothing-ness then it booted, and it booted straight into the USB drive without me having to change the boot order
+
+During the installation of the CentOS8, I went ahead and connected an Ethernet cable so I could get all the necessary modules and libraries during the 
+installation setup. Also this enabled the NTP and it automatically adjusted the clock on the system
+
+Debated which "software selection" to choose from but from researching, I decided to choose "Minimal Install" since this kernel will be a KVM host that will 
+host many VMs, plus I can always add any option from the command line, including any GUI features
+
+Installation was a lot quicker than what I have had in the past, on the laptop/etc
+
+No users configured, just the root
+
+After the reboot, I noticed there were two kernels. Both of them said Centos8 Linux but one of them had the keyword "rescue"
+
+After some researching, it seems like that kernel serves as basically a Recovery Mode where in case the regular kernel is corrupted, you can pull
+and backup the data through the Rescue kernel
+
