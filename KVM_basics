@@ -13,5 +13,38 @@ card, and etc
 
 
 https://www.linux-kvm.org/page/FAQ#How_much_RAM_do_I_need.3F
+******************************************************************************
+What is KVM?
+-a patchset adds a driver for "Intel's hardware virtualization extensions" to the x86 architecture
+*x86 is a family of instruction set architectures, initially developed by Intel based on the
+Intel 8086 microprocessor and its 8088 variant
+
+**** quick detour on ISA ****
+*An Instruction Set Architecture (ISA) specifies the behavior of machine code runing on
+implmentations of that ISA in a fashion that does not depend on the characteristics of that implementation,
+providing "binary compatibility" between implementations:
+
+ISA (instruction set architecture) basically gives a standardization to different "implementations"
+(a realization of an ISA, such as the CPU, is called an implementation).
+
+This allows for the evolution of the microarchitectures of the implementations of that ISA, so
+that newer, higher-performances implementation of an ISA can run software that runs
+on previous generations of implementations
+*******************************
+
+-KVM driver adds a character device (/dev/kvm/) that exposes the virtualization capabilities to
+userspace
+-using this driver, a process can run a virtual machine (a "guest") in a fully virtualized PC
+containing its own virtual hard disks/network adapters/etc
+-using this driver, one can start multiple virtual machine on a host
+-each virtual machine is a "process" on the host; a virtual cpu is a "thread" in that process
+
+
+
+
+
+
+
+
 
 
