@@ -1,0 +1,102 @@
+Although before the purchase of the CPU (AMD), I checked for the AMD-v capability for the Virtualization
+capability, I went ahead and checked on the command line:
+
+grep -e 'sv' /proc/cpuinfo
+
+You can also verify that the KVM modules are loaded in the kernel:
+
+lsmod | grep kvm
+
+Go ahead and updating the system:
+
+yum update
+
+Make sure SELinux is in Permissive mode
+
+setenforce 0
+
+When checking /etc/selinux/config or /etc/sysconfig/selinux, the output showed that the CURRENT
+mode is "permissive" but the mode from config was still "enforcing"
+
+
+Continuing with the installation/setting up of the KVM:
+
+to install the user-level KVM and disk image manager:
+
+yum install qemu-kvm qemu-img
+
+
+to download more useful tools for administration purposes:
+
+-virt-manager: provides a GUI tool to administrate your virtual machines
+-libvirt-client: provides a CL tool to administrate your virtual environment called "virsh"
+-virt-install: provides the command "virt-install" to create your virtual machines from CLI
+-libvirt: provides the server and host side libraries for interacting with hypervisors and 
+host systems
+
+
+yum install virt-manager libvirt libvirt-python libvirt-client
+
+*getting the error:
+No match for argument: libvirt-python
+Error: Unable to find a match: libvirt-python
+
+**libvirt-python package provides a module that permits applications written in the Python 3.x programming
+language to call the interface supplied by the libvirt library, to manage the virtualization
+capabilities of recent versions of Linux and other OSes
+
+Not sure if I can download this separately but skipping this for now******
+
+Installing Virtualization Client, Virtualization Platform, and Virtualization Tools:
+
+Virtualization Client
+-clients for installing and managing virtualization instances
+-mandatory packages:
+1. python-virtinist
+2. virt-manager
+3. virt-viewer
+-optional packages:
+1. virt-top
+
+Virtualization Platform
+-provides an interface for accessing and controlling virtual machines and containers
+-mandatory packages:
+1. libvirt
+2. libvirt-client
+3. virt-who
+4. virt-what
+-optional packages:
+1. fence-virtd-libvirt
+2. fence-virtd-multicast
+3. fence-virtd-serial
+4. libvirt-cim
+5. libvirt-java
+6. libvirt-qmf
+7. libvirt-snmp
+8. perl-Sys-Virt
+
+Virtualization Tools 
+-tools for offline virtual image management
+-mandatory packages:
+1. libguestfs
+-optional packages:
+1. libguestfs-java
+2. libguestfs-tools
+3. virt-v2v
+
+yum groupinstall virtualization-client virtualization-platform virtualization-tools
+
+
+"libvirtd" is the virtualization daemon which manages all of the platform. This needs to be restarted:
+
+systemctl restart libvirtd
+
+systemctl status libvirtd
+
+**daemon- a long-running background process that answers requests for services
+
+
+
+
+
+
