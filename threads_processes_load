@@ -1,0 +1,115 @@
+**** quick detour on Linux processes and threads ****
+-in a very basic form, Linux process can be visualized as running instance of a program
+-any "work" that is intended on Linux kernel requires system resources, which the kernel is 
+responsible for providing/distributing
+-processes have priority based on which kernel context switches them
+*a process can be pre-empted if a process with higher priority is ready to be executed
+
+EX)
+if a process is waiting for a system resource, the kernel can schedule a higher priority 
+process and get back to the waiting process when data is available
+
+
+
+-a process has its own identity in form of a PID (PROCESS ID)
+-each process has its own process address space where memory segments like:
+1. code segment
+2. data segment
+3. stack segment
+and so on.
+
+process creation > process execution > process termination
+
+
+**************
+fork() function
+Parent process > Child process
+-the fork() function is used to create a new process by "duplicating the existing process from
+which it is called", also referred to as the "parent process" and the newly created process
+becomes the "child process"
+
+While the child process is a duplicate copy of the parent process:
+-child process has a unique PID like any other process running in the OS
+-the child will have a parent process ID associated with it, matching the PID of the process
+that created it
+-"resource utilization and CPU time counters" are reset to ZERO in child processes
+-set of "pending signals" in child process is empty
+-child does not inherit any "timers" from its parents
+***************
+Linux Threads vs. Light Weight Processes
+
+Thread = a flow of execution of the process
+Multi-threaded process = a process containing multiple execution flows
+*Non multi-threaded process = there is only execution flow that is the main execution flow and
+hence it is also known as single threaded process
+
+For the Linux kernel though, there is no concept of thread. Each thread is viewed by kernel
+as a separate process, for the most part
+
+Light Weight Process (LWP) vs. normal processes
+-LWPs share same address space and other resources 
+
+
+In conclusion:
+A thread == A Light Weight Process
+-a thread is a user-level terminology
+-a LWP is a kernel-level terminology
+
+********************
+Linux process states
+RUNNING
+-the process is either in execution or waiting to get executed
+INTERRUPTIBLE
+-the process is waiting to get interrupted as it is in sleep mode and waiting for some action
+to happen that can wake this process up. *This can be a hardware interrupt, signal etc
+UN-INTERRUPTIBLE
+-this process cannot be waken upby delivering a signal
+STOPPED
+-this state specifies that the process has been stopped. This may happen if a signal like
+SIGSTOP, SIGTTIN etc is delivered to the process
+TRACED
+-this state specifies that the process is being debugged. *whenever the process is stopped by
+debugger (to help user debug the code) the process enters this tate
+ZOMBIE
+-this state specifies that the process is terminated but still hanging around in kernel
+process table because of parent of this process has still not fetched the termination status 
+of this process
+DEAD
+-this means the process is terminated and entry is removed from process table. *this state
+is achieved when the parent successfully fetches the termination status as explained in ZOMBIE
+state
+
+************************
+What is Load Average and/or how is it measured?
+
+On Linux, load averages are (or try to be) "system load averages", for the system as a whole,
+measuring the number of threads that are working and waiting to work (CPU, disk, uninterruptible locks)
+*basically, it measures the number of threads that aren't completely idle. 
+Advantage: includes demand for different resources
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
