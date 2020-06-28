@@ -1,0 +1,78 @@
+SELinux
+-Security-Enhanced Linux
+-a security architecture for Linux systems that allows administrators to have more control over
+who can access the system
+*it was originally developed by the NSA as a series of patches to the Linux kernel using Linux Security Modules (LSM)
+
+
+
+
+How does it work?
+-SELinux defines access controls for the applications, processes, and files on a system
+-uses security policies, which are a set of rules that tell SELinux what can or cannot be
+accessed, to enforce the access allowed by a policy
+
+-when a subject (whether it may be a process or an application) makes a request to access an object,
+like a file, SELinux checks with an access vector cache (AVC), where permissions are cached for 
+subjects and objects
+
+-if SELinux is unable to make a decision about access based on the cached permissions, it sends
+the request to the security server. The security server checks for the security context of the
+application or a procession and the file
+*Security context is applied from the SELinux policy database. Permission is then granted or denied
+
+*If denied, the following message will be found in /var/log.messages:
+"avc:denied"
+
+
+
+
+
+How to configure SELinux
+-while there are a number of ways to configure SELinux, the most common are targeted policy or
+multi-level security (MLS)
+-targeted policy is the default option and covers a range of processes, tasks, and services
+-MLS can be very complicated and is typically only used by government organization
+
+-check here to see what the system is supposed to be running:
+/etc/sysconfig/selinux
+
+
+
+
+SELinux labeling and type enforcement
+*type enforcement and labeling are the most important concepts for SELinux
+-SELinux works as a labeling system: all of the files, processes, and ports in a system have an
+SELinux label associated with them
+-labels are a logical way of grouping things together
+-kernel manages the labels during boot
+-label format:
+
+user:role:type:level (level is optional)
+
+-SELinux uses type enforcement to enforce a policy that is defined on the system
+-type enforcement is the part of an SELinux policy that defines whether a process running with a 
+certain type can access a file labeled with a certain type
+
+
+
+
+Enabling SELinux
+-can you enable SELinux by editing /etc/selinux/config
+*if you are enabling SELinux, you need to force the system to automatically relabel the filesystem
+by creating an empty file named '.autorelabel' in the root directory and then rebooting
+*you can manually edit the /etc/selinux/config or /etc/sysconfig/selinux or just run 'setenforce 1'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
