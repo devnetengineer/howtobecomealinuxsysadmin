@@ -39,6 +39,12 @@ containing its own virtual hard disks/network adapters/etc
 -using this driver, one can start multiple virtual machine on a host
 -each virtual machine is a "process" on the host; a virtual cpu is a "thread" in that process
 
+*******************************
+KVM benefits
+-design for future hardware
+-reuse Linux kernel infrastructure
+-a witty maintainer
+
 
 
 
