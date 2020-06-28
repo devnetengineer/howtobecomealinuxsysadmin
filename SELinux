@@ -65,11 +65,24 @@ by creating an empty file named '.autorelabel' in the root directory and then re
 
 
 
+/etc/sysconfig/selinux vs. /etc/selinux/config
 
 
+The /etc/sysconfig/selinux contains a symbolic link to the actual configuration file, /etc/selinux/config.
 
 
+ENFORCING
+-SELinux security policy is enforced
 
+PERMISSIVE
+-SELinux system prints warnings but does not enforce policy. This is useful for debugging and troubleshooting
+purposes
+-in permissive mode, more denials will be LOGGED , as subject will be able to continue with actions
+otherwise denied in enforce mode
+
+DISABLED
+-SELinux is fully disabled
+-SELinux hooks are disengaged from the kernel and the pseudo-file system is unregistered 
 
 
 
