@@ -45,7 +45,16 @@ Error: Unable to find a match: libvirt-python
 language to call the interface supplied by the libvirt library, to manage the virtualization
 capabilities of recent versions of Linux and other OSes
 
-Not sure if I can download this separately but skipping this for now******
+*it may have changed from Centos7 to Centos8 so doing a manual search:
+
+yum search libvirt 
+
+I see python3-libvirt as the package name
+
+yum install python3-libvirt
+*getting an error message that it's already been installed
+
+
 
 Installing Virtualization Client, Virtualization Platform, and Virtualization Tools:
 
