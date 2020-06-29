@@ -105,6 +105,69 @@ systemctl status libvirtd
 **daemon- a long-running background process that answers requests for services
 
 
+**Yum is a package manager. RPM is a package container that includes information on what dependencies are needed by the package and build instructions.
+***********************************************************
+
+Now we need to install the SpaceWalk server on the KVM
+
+dnf copr enable -y @spacewalkproject/nightly
+dnf install -y spacewalk-repo
+dnf copr remove @spacewalkproject/nightly
+
+When trying to install the postgresql database for the Spacewalk:
+
+yum -y install spacewalk-setup-postgresql
+Errors during downloading metadata for repository 'spacewalk':
+ - Status code: 404 for https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/spacewalk-2.11/epel-8-x86_64/repodata/repomd.xml
+ Error: Failed to download metadata for repo 'spacewalk': Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirros were tried
+ 
+ **By default, yum deletes downloaded data files when they are no longer needed after a successful operation. This minimizes the amount of storage space that yum uses. However, 
+ you can enable caching, so that the package files downloaded by yum stay in cache directories. By using cached data, you can carry out certain operations without a 
+ network connection, you can also copy packages stored in the caches and reuse them elsewhere.
+
+yum clean all
+
+*tried it again
+
+same error
+
+modifying the value of "enabled" in /etc/yum.repos.d/spacewalk.repo to 0 from 1
+
+now the error message is:
+
+Error: Unable to find a match: spacewalk-setup-postgresql
+
+*Resorting to setting it up manually 
+
+yum install -y 'postgresql-server > 8.4'
+
+*still failed because I had reverted the value of "enabled" for /etc/yum.repos.d/spacewalk.repo back to 1. Once I changed it BACK to 0, I was able to successfully install
+postgresql on the server
+
+
+
+
+
+**yum-plugin-tmprepo
+This extension adds the --tmprepo option taking an url of a .repo file, downloads it and enable it for only one transaction. This extension tries to 
+ensure the safe temporary usage of repositories, by default, it does not allow to disable the gpg check.
+This extension adds the following options:
+--tmprepo=[url]
+Enables or creates one or more temporary repository from URLs of the corresponding .repo, repomd.xml, local repomd.xml file or repository local directory.
+--tmprepo-keep-created
+Keeps the repository configured.
+
+**DNF or Dandified YUM[2][3][4] is the next-generation version of the Yellowdog Updater, Modified (yum), a package manager for .rpm-based distributions. 
+DNF was introduced in Fedora 18 in 2013,[5] it has been the default package manager since Fedora 22 in 2015[6] and Red Hat Enterprise Linux 8.[7]
+
+
+
+
+
+
+
+
+
 
 
 
