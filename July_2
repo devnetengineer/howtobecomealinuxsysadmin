@@ -3,3 +3,46 @@ out there.
 
 *It does seem that Spacewalk is not the most popular choice for type 1 Hypervisor (not anymore at least)
 
+******
+update
+
+I was able to install KVM and Spacewalk following this guide:
+
+https://www.itzgeek.com/how-tos/linux/centos-how-tos/how-to-install-spacewalk-on-centos-7-rhel-7.html
+
+One thing that is necessary is to change the hostname since the Spacewalk server is installed on the kvm itself:
+
+/etc/sysconfig/network
+/etc/hosts
+/etc/hostname
+
+You can all edit them manually but you can use the hostnamectl command to set it for
+/etc/hostname:
+
+hostnamectl set-hostname spacewalk.beanstalk.com
+
+tried doing /etc/init.d/network restart but had to reboot to
+get it to show up in the environment variable
+
+
+
+
+Unfortunately I am not able to pull the GUI using the command:
+virt-manager
+
+Getting the error of:
+(virt-manager:7773): Gtk-WARNING **: 13:07:16:038: cannot open display:
+
+**********
+It seems like in order for me to ssh into the servers, I need to set up a bridge on the hypervisor so I can connect to the VMs in the future
+
+
+
+
+
+
+
+
+
+https://www.mail-archive.com/search?l=spacewalk-list@redhat.com&q=subject:%22Re%5C%3A+%5C%5BSpacewalk%5C-list%5C%5D+Tomcat+failed+to+start+properly+or+the+installer+ran+out+of+tries%22&o=newest&f=1
+
