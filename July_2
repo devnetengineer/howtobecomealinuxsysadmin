@@ -1,0 +1,5 @@
+After many tries to get the spacewalk to install correctly on CentOS8, I have finally re-imaged the server with CentOS7 due to more How To guides and relavent information
+out there.
+
+*It does seem that Spacewalk is not the most popular choice for type 1 Hypervisor (not anymore at least)
+
