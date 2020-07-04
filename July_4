@@ -158,6 +158,161 @@ virtual machine
   QEMU: Checking if IOMMU is enabled by kernel                               : PASS
 
 
+**booted the server in BIOS
+M.T.I >> Advanced Frequency Settings >> Advanced CPU settings >> SVM mode ENABLE
+
+jyoo@spacewalk ~]$ virt-host-validate
+  QEMU: Checking for hardware virtualization                                 : PASS
+  QEMU: Checking if device /dev/kvm exists                                   : PASS
+  QEMU: Checking if device /dev/kvm is accessible                            : PASS
+  QEMU: Checking if device /dev/vhost-net exists                             : PASS
+  QEMU: Checking if device /dev/net/tun exists                               : PASS
+  QEMU: Checking for cgroup 'cpu' controller support                         : PASS
+  QEMU: Checking for cgroup 'cpuacct' controller support                     : PASS
+  QEMU: Checking for cgroup 'cpuset' controller support                      : PASS
+  QEMU: Checking for cgroup 'memory' controller support                      : PASS
+  QEMU: Checking for cgroup 'devices' controller support                     : PASS
+  QEMU: Checking for cgroup 'blkio' controller support                       : PASS
+  QEMU: Checking for device assignment IOMMU support                         : PASS
+  QEMU: Checking if IOMMU is enabled by kernel                               : PASS
+[jyoo@spacewalk ~]$
+
+
+
+**AFTER
+[jyoo@spacewalk ~]$ lsmod | grep kvm
+kvm_amd               110592  0
+kvm                   786432  1 kvm_amd
+irqbypass              16384  1 kvm
+ccp                    98304  1 kvm_amd
+
+** BEFORE
+
+[jyoo@spacewalk ~]$ lsmod | grep kvm
+kvm                   786432  0
+irqbypass              16384  1 kvm
+
+******
+2. The second command to "sanity check" before continuing with the virtualizing is "virsh"
+
+virsh = a command-line interface interface for managing the VM and the hypervisor on a Linux system
+*similar to virt-manager, it works as the "client" that talks with the libvirt daemon (libvirtd), as an alternative
+to the virt-manager (GUI) and a web-based kimchi-project
+Below are some classifications of virsh commands:
+-Guest management commands (such as START, STOP)
+-Guest monitoring commands (such as MEMSTAT, CPUSTAT)
+-Host and hypervisors commands (such as CAPABILITIES, NODEINFO)
+-Virtual networking commands (such as NET-LIST, NET-DEFINE)
+-Storage management commands (such as POOL-LIST, POOL-DEFINE)
+-Snapshot commands (CREATE-SNAPSHOT-AS)
+
+*virsh can display a lot of information regarding the host's capabilities 
+
+[jyoo@spacewalk ~]$ virsh nodeinfo
+CPU model:           x86_64
+CPU(s):              12
+CPU frequency:       3866 MHz
+CPU socket(s):       1
+Core(s) per socket:  6
+Thread(s) per core:  2
+NUMA cell(s):        1
+Memory size:         16196848 KiB
+
+[jyoo@spacewalk ~]$
+
+*********************
+[jyoo@spacewalk ~]$ virsh domcapabilities | grep -i max
+  <vcpu max='240'/>
+
+Our server can host a maximum of 240 vCPUs that can be defined for a VM
+
+
+[jyoo@spacewalk ~]$ virsh domcapabilities | grep diskDevice -A 5
+      <enum name='diskDevice'>
+        <value>disk</value>
+        <value>cdrom</value>
+        <value>floppy</value>
+        <value>lun</value>
+
+-disk
+-cdrom
+-floppy
+-lun 
+**The above are the type of devices that can be used with the virtual machines on our server
+***********************
+[jyoo@spacewalk ~]$ virt-manager
+[jyoo@spacewalk ~]$ Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+Unable to init server: Could not connect: Connection refused
+
+(virt-manager:2207): Gtk-WARNING **: 15:28:27.323: cannot open display:
+
+[jyoo@spacewalk ~]$
+
+ssh -X jyoo@192.168.1.67
+X11 forwarding request failed on channel 0
+Last login: Sat Jul  4 15:14:28 2020 from 192.168.1.79
+[jyoo@spacewalk ~]$
+
+[jyoo@spacewalk ~]$ sudo grep "X11" /etc/ssh/sshd_config
+X11Forwarding yes
+#X11DisplayOffset 10
+#X11UseLocalhost yes
+#       X11Forwarding no
+[jyoo@spacewalk ~]$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
