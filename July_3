@@ -1,0 +1,29 @@
+Decided to change up the plan, again.
+
+After having issues such as:
+-not being able to pull virt-manager on the server
+-not understanding bridge-d virtual -networking and how it works in relation to the Home network/router/dhcp/etc
+
+Feeling pretty useless but I did a quick test and was able to ssh into the service on my desktop(work). Just needed to add this config:
+
+yum -y install openssh-server openssh-clients
+
+systemctl enable sshd.service
+systemctl start sshd.service
+
+*if you want to check if port 22 is open:
+
+ss -tulpn | grep ':22'
+
+If closed, just open it:
+
+firewall-cmd --zone=public --add-service=ssh --permanent
+firewall-cmd --reload
+
+you can customize your SSH config:
+
+vi /etc/ssh/sshd_config
+
+just to confirm, our home router is doing the routing/switching from our desktop (work) to the server and they are both independently connected to the router via Cat5E Ethernet
+cords
+
