@@ -1,0 +1,180 @@
+Have set up a Minimal Install of Centos8 with nothing else installed on the server. Currently there's:
+
+Root
+Jyoo
+
+Jyoo has Admin privileges. Currently SSHing from the desktop(work) to the server on 192.168.1.67
+
+********************************************************************************************************
+Currently the server, despite being freshly re-deployed, has the hostname of Spacewalk. It seems like the name was assigned
+by the router since most likely the Soho router at home has DNS capabilities
+
+To check to see if it supports virtualization:
+
+grep 'svm' /proc/cpuinfo (since it's AMD processor, we will use 'svm'. If it was Intel, it would be 'vmx')
+
+To verify whether the modules are loaded or not for kvm:
+
+[jyoo@spacewalk ~]$ lsmod | grep kvm
+kvm                   786432  0
+irqbypass              16384  1 kvm
+
+*If not loaded, it can be loaded from BIOS
+
+*******
+CORE
+For the most part, one core per vCPU is recommended. 
+Overcomitting (assigning more virtual resources than the physical resources available) is appropriate if the virtual machines
+will not be running CPU-intensive tasks\
+
+PHYSICAL MEMORY (RAM)
+always leave at least 2 GB of RAM for the hypervisor (for systems with RAM upto 64 GB)
+
+STORAGE
+things to consider:
+1. space required for the OS installation
+2. SWAP
+3. virtual machine disk usage
+
+for most uses, 2 GB of swap space for systems with 4 GB of RAM or less
+
+NETWORK
+One NIC with a bandwidth of at least 1 GBps is recommended
+*it is suggested to bind multiple network interfaces together into a single channel using Linux bonding technology and build
+virtual machine network infrastructure on top of it.
+**********
+[jyoo@spacewalk ~]$ yum check-update
+CentOS-8 - AppStream                                     4.7 MB/s | 5.8 MB     00:01
+CentOS-8 - Base                                          2.8 MB/s | 2.2 MB     00:00
+CentOS-8 - Extras                                         13 kB/s | 6.7 kB     00:00
+[jyoo@spacewalk ~]$ yum update
+Error: This command has to be run under the root user.
+[jyoo@spacewalk ~]$ sudo yum update
+[sudo] password for jyoo:
+Last metadata expiration check: 0:02:21 ago on Sat 04 Jul 2020 02:39:39 PM EDT.
+Dependencies resolved.
+Nothing to do.
+Complete!
+[jyoo@spacewalk ~]$ yum check-update
+Last metadata expiration check: 0:00:27 ago on Sat 04 Jul 2020 02:41:40 PM EDT.
+[jyoo@spacewalk ~]$ yum check-update
+************
+
+To verify the yum repository is enabled or not on the system:
+
+[jyoo@spacewalk ~]$ yum repolist
+repo id                                repo name
+AppStream                              CentOS-8 - AppStream
+BaseOS                                 CentOS-8 - Base
+extras                                 CentOS-8 - Extras
+
+************
+Installing virtualization packages
+
+The minimum required packages for setting up a virtualization environment are:
+1. libvirt
+2. qemu-kvm
+3. virt-manager
+
+yum install qemu-kvm libvirt virt-install virt-manager virt-install -y
+
+****************
+after installing the KVM virtualization packages, the first thing you should do is start a libvirt service
+
+As soon as you start the libvirt service, it will expose a rich Application Programmable Interface (API) to interact with
+qemu-kvm binary
+
+*Qemu-kvm binary- clients such as virsh and virt-manager use this API to talk with qemu-kvm for virtual machine life cycle 
+management:
+
+
+[jyoo@spacewalk ~]$ systemctl enable libvirtd && systemctl start libvirtd
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-unit-files ====
+Authentication is required to manage system service or unit files.
+Authenticating as: jason yoo (jyoo)
+Password:
+==== AUTHENTICATION COMPLETE ====
+
+[jyoo@spacewalk ~]$ systemctl status libvirtd
+● libvirtd.service - Virtualization daemon
+   Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled; vendor preset: ena>
+   Active: active (running) since Sat 2020-07-04 14:50:46 EDT; 2min 29s ago
+     Docs: man:libvirtd(8)
+           https://libvirt.org
+ Main PID: 13135 (libvirtd)
+    Tasks: 19 (limit: 32768)
+   Memory: 25.0M
+   CGroup: /system.slice/libvirtd.service
+           ├─13135 /usr/sbin/libvirtd
+           ├─13218 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf ->
+           └─13219 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf ->
+
+Jul 04 14:50:46 spacewalk dnsmasq[13218]: started, version 2.79 cachesize 150
+Jul 04 14:50:46 spacewalk dnsmasq[13218]: compile time options: IPv6 GNU-getopt DBus no->
+Jul 04 14:50:46 spacewalk dnsmasq-dhcp[13218]: DHCP, IP range 192.168.122.2 -- 192.168.1>
+Jul 04 14:50:46 spacewalk dnsmasq-dhcp[13218]: DHCP, sockets bound exclusively to interf>
+Jul 04 14:50:46 spacewalk dnsmasq[13218]: reading /etc/resolv.conf
+Jul 04 14:50:46 spacewalk dnsmasq[13218]: using nameserver 192.168.1.254#53
+Jul 04 14:50:46 spacewalk dnsmasq[13218]: using nameserver 2600:1700:1321:190::1#53
+Jul 04 14:50:46 spacewalk dnsmasq[13218]: read /etc/hosts - 2 addresses
+Jul 04 14:50:46 spacewalk dnsmasq[13218]: read /var/lib/libvirt/dnsmasq/default.addnhost>
+Jul 
+********************
+Before creating virtual machines, it is very important to validate the system and make sure it meets all the
+prerequisites to be a KVM virtualization host. And also undersatnd what the virt capabilities are
+
+1. virt-host-validate
+-this command ran as Root will perform sanity checks on KVM capabilities to validate that the host is configured in a suitable 
+way to run the libvirt hypervisor drivers using KVM virtualization
+EX)
+if a server has all the necessary packages required for KVM virtualization but lacks the hardware virtualization support,
+this command will give you an output that warns you of such issue
+
+Which parameters are checked by "virt-host-validate"?
+-/dev/kvm
+The KVM drivers create a /dev/kvm character device on the host to facilitate direct hardware access for virtual machines
+*Not having this devices means that the VMs won't be able to access physical hardware, although it's enabled in the BIOS. Also
+this can reduce the VMs' performance significantly
+-/dev/vhost-net
+The vhost-net driver creates a /dev/vhost-net character devices on the host, which will serve as the interface to configure
+the vhost-net instance
+*Not having this device significantly reduces the virtual machine's network performances
+-/dev/net/tun
+This is another character special device used for creating tun/tap devices to facilitate network connectivity for a 
+virtual machine
+
+[jyoo@spacewalk ~]$ virt-host-validate
+  QEMU: Checking for hardware virtualization                                 : PASS
+  QEMU: Checking if device /dev/kvm exists                                   : FAIL (Check that the 'kvm-intel' or 'kvm-amd' modules are loaded & the BIOS has enabled virtualization)
+  QEMU: Checking if device /dev/vhost-net exists                             : PASS
+  QEMU: Checking if device /dev/net/tun exists                               : PASS
+  QEMU: Checking for cgroup 'cpu' controller support                         : PASS
+  QEMU: Checking for cgroup 'cpuacct' controller support                     : PASS
+  QEMU: Checking for cgroup 'cpuset' controller support                      : PASS
+  QEMU: Checking for cgroup 'memory' controller support                      : PASS
+  QEMU: Checking for cgroup 'devices' controller support                     : PASS
+  QEMU: Checking for cgroup 'blkio' controller support                       : PASS
+  QEMU: Checking for device assignment IOMMU support                         : PASS
+  QEMU: Checking if IOMMU is enabled by kernel                               : PASS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
