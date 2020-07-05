@@ -408,12 +408,51 @@ Jul 04 16:03:26 spacewalk libvirtd[1372]: 2020-07-04 20:03:26.632+0000: 1413: er
 
 ***********
 
+[jyoo@spacewalk ~]$ virsh net-list --all
+ Name                 State      Autostart     Persistent
+----------------------------------------------------------
+
+[jyoo@spacewalk ~]$
 
 
+*the default network is a NAT-based virtual network
+-allows virtual machines to communicate with the outsdie networks IRRESPECTIVE of the active NIC available on the hypervisor
+-also provides a private network with IP and a DHCP server so that the VMs will get their IP addresses automatically
 
 
+NAME=name of the virtual network
+DEVICE=name of the bridge created on the host. The bridge interface is the main component for creating virtual networks
+STATE=represents the state of the virtual network. ACTIVE or INACTIVE
+AUTOSTART=shows whether or not the virtual network should be started when you activate the libvirtd service
+IPV4 CONFIG=
+-details of the private network
+-DHCP range that will be provided to the VMs
+-forwarding mode (NAT or isolated)
 
 
+[jyoo@spacewalk ~]$ virsh net-info default
+error: failed to get network 'default'
+error: Network not found: no network with matching name 'default'
+
+**********************
+Storage Pool
+-a store for saved virtual machine disk images
+
+Default Storage Pool
+-a storage pool that libvirt created to store its virtual machine image file
+/var/lib/libvirt/images
+
+
+https://computingforgeeks.com/use-virt-manager-as-non-root-user/
+****************
+
+http://wiki.docking.org/index.php/How_to_access_X11_Forwarding_after_becoming_root
+
+The issue with accessing the USB when creating the VMs was that I was SSH-ed in as jyoo and I need 'root' access to access USB and my "env" didn't carry over 
+from the user to root
+
+For now, I decided to just SSH in as 'root' and create the vm through virt-manager
+*************
 
 
 
