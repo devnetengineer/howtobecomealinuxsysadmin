@@ -1,0 +1,26 @@
+A lot of times has passed by, part of it was due to studying for RHCSA.
+
+Today's objective is to learn more about KVM
+
+The main topic today is NETWORKING and STORAGE
+
+Bridge is a virtual switch used by libvirt
+TAP == layer 2 frames travel here
+TUN == layer 3 packets travel here 
+
+Before we can configure a bridge on our hypervisor, we need to see if the bridge module is loaded into the kernel:
+
+
+lsmod | grep "bridge"
+
+[root@spacewalk ~]# lsmod | grep bridge
+bridge                192512  0
+stp                    16384  1 bridge
+llc                    16384  2 bridge,stp
+
+
+According to https://access.redhat.com/documentation ... ctionality , bridge-utils was deprecated in 7.7 .
+
+https://www.tecmint.com/create-network-bridge-in-rhel-centos-8/
+
+It may be just easier to use nmcli/nmtui to configure the bridge
